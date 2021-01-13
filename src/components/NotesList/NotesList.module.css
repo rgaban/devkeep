@@ -1,0 +1,15 @@
+.Container {
+    width: 200px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 200;
+    background-color:rgba(232, 232, 232, 0.454);
+    padding: 32px 16px;
+    box-sizing: border-box;
+}
+
+.HeaderContainer {
+    display: flex;
+    justify-content: space-between;
+}

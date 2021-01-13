@@ -1,0 +1,7 @@
+.AddButton button {
+    border: none;
+    text-decoration: none;
+    font: inherit;
+    cursor: pointer;
+    outline: none;
+}
