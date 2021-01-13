@@ -8,12 +8,13 @@ import classes from './Notes.module.css';
 import { SentimentSatisfied } from '@material-ui/icons';
 
 export default function Notes() {
-    const { notes } = useStore();
+    const { notes, setNotes } = useStore();
     const [noteId, setNoteId] = useState('');
     const [noteTitle, setNoteTitle] = useState('');
     const [noteDescription, setNoteDescription] = useState('');
     const [code, setCode] = useState('');
     const [isAddingNote, setIsAddingNote] = useState(false);
+    const [selectedNote, setSelectedNote] = useState(null);
 
     const handleNoteClick = (e) => {
         const selectedNoteIndex = notes.findIndex(note => note.id === parseInt(e.target.dataset.id));
@@ -24,11 +25,11 @@ export default function Notes() {
     };
 
     const handleNoteTitleChange = (e) => {
+
         setNoteTitle(e.target.value);
     };
 
     const handleNoteDescriptionChange = (e) => {
-        console.log(e);
         setNoteDescription(e);
     };
 
@@ -37,11 +38,13 @@ export default function Notes() {
     };
 
     const initializeAddNewNote = () => {
+        setIsAddingNote(true);
         setNoteId('');
         setNoteTitle('');
         setNoteDescription('');
         setCode('');
-        // addNote()
+
+
     };
 
     useEffect(() => {
@@ -51,11 +54,15 @@ export default function Notes() {
     }, [noteTitle, noteDescription, code]);
 
     const handleDeleteNote = (noteId) => {
-
+        setIsAddingNote(false);
     };
 
     const handleSaveNote = (noteId) => {
-
+        if (isAddingNote) {
+            addNote(noteTitle, noteDescription, code);
+            setIsAddingNote(false);
+        }
+        setNotes([...notes]);
     };
 
 

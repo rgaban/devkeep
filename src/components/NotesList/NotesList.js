@@ -6,9 +6,9 @@ import { List } from '@material-ui/core';
 import classes from './NotesList.module.css';
 
 const NotesList = (props) => {
-    let notesList = <div>Loading...</div>;
+    let notesList = <div>No Notes to Load..</div>;
 
-    if (props.notes) {
+    if (props.notes.length > 0) {
         notesList = props.notes.map(note => (
             <NoteListItem
                 key={note.id}

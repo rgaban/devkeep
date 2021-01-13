@@ -14,12 +14,47 @@ export const useStore = (props) => {
     useEffect(() => {
         fetchNotes()
             .then(response => {
-                setNotes(response);
+                setNotes(response.sort((a, b) => b.id - a.id));
             })
-            .catch(console.error)
+            .catch(console.error);
     }, []);
 
-    return { notes, newNote, noteListener };
+    useEffect(() => {
+        const handleAsync = async () => {
+            if (newNote) {
+                // could be an update??
+                let update = notes.find((note, i) => {
+                    if (note.id === newNote.id) {
+                        notes[i] = newNote
+                        return true;
+                    } else {
+                        return false;
+                    }
+                });
+                if (update) {
+                    setNotes((n) => [...notes]) // update
+                } else {
+                    notes.unshift(newNote)
+                    setNotes((n) => [...notes]) // new
+                }
+            }
+        };
+        handleAsync();
+    }, [newNote]);
+
+    useEffect(() => {
+        if (!noteListener) {
+            setNoteListener(
+                supabase
+                    .from('notes')
+                    .on('INSERT', (payload) => handleNewNote(payload.new))
+                    .on('UPDATE', (payload) => handleNewNote(payload.new))
+                    .subscribe()
+            )
+        }
+    }, [noteListener]);
+
+    return { notes, setNotes };
 };
 
 export const fetchNotes = async () => {
