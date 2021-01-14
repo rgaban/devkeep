@@ -40,12 +40,10 @@ export default function Notes() {
         setNoteTitle('');
         setNoteDescription('');
         setCode('');
-
-
     };
 
     useEffect(() => {
-        // wait 500ms to set event
+        // wait 2000ms to set notes
         const timeOut = setTimeout(() => null, 2000);
         return () => clearTimeout(timeOut);
     }, [noteTitle, noteDescription, code]);

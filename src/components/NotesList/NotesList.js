@@ -18,6 +18,8 @@ const NotesList = (props) => {
                 selected={note.id === props.noteId}
             />
         ));
+    } else {
+        notesList = <div>No Notes Found</div>
     }
 
     return (
@@ -26,9 +28,11 @@ const NotesList = (props) => {
                 <h4 className={classes.Header}>Notes</h4>
                 <AddButton clicked={props.addNoteClicked} />
             </div>
-            <List>
-                {notesList}
-            </List>
+            <div className={classes.List}>
+                <List>
+                    {notesList}
+                </List>
+            </div>
         </div>
     )
 }
