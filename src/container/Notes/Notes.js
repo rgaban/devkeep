@@ -5,7 +5,6 @@ import NoteEditor from '../../components/NoteEditor/NoteEditor';
 import CodeEditor from '../../components/CodeEditor/CodeEditor';
 
 import classes from './Notes.module.css';
-import { SentimentSatisfied } from '@material-ui/icons';
 
 export default function Notes() {
     const { notes, setNotes } = useStore();
@@ -32,7 +31,7 @@ export default function Notes() {
     };
 
     const handleCodeChange = (e) => {
-
+        setCode(e);
     };
 
     const initializeAddNewNote = () => {
