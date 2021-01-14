@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { addNote, useStore } from '../../utility/useStore';
+import { addNote, deleteNote, useStore } from '../../utility/useStore';
 import NotesList from '../../components/NotesList/NotesList';
 import NoteEditor from '../../components/NoteEditor/NoteEditor';
 import CodeEditor from '../../components/CodeEditor/CodeEditor';
@@ -9,12 +9,11 @@ import { SentimentSatisfied } from '@material-ui/icons';
 
 export default function Notes() {
     const { notes, setNotes } = useStore();
-    const [noteId, setNoteId] = useState('');
+    const [noteId, setNoteId] = useState(null);
     const [noteTitle, setNoteTitle] = useState('');
     const [noteDescription, setNoteDescription] = useState('');
     const [code, setCode] = useState('');
     const [isAddingNote, setIsAddingNote] = useState(false);
-    const [selectedNote, setSelectedNote] = useState(null);
 
     const handleNoteClick = (e) => {
         const selectedNoteIndex = notes.findIndex(note => note.id === parseInt(e.target.dataset.id));
@@ -25,7 +24,6 @@ export default function Notes() {
     };
 
     const handleNoteTitleChange = (e) => {
-
         setNoteTitle(e.target.value);
     };
 
@@ -55,14 +53,16 @@ export default function Notes() {
 
     const handleDeleteNote = (noteId) => {
         setIsAddingNote(false);
+        deleteNote(noteId);
+        setNotes(notes.filter(note => note.id !== noteId));
     };
 
     const handleSaveNote = (noteId) => {
         if (isAddingNote) {
             addNote(noteTitle, noteDescription, code);
             setIsAddingNote(false);
+            setNotes([...notes]);
         }
-        setNotes([...notes]);
     };
 
 
@@ -72,13 +72,14 @@ export default function Notes() {
                 <NotesList
                     notes={notes}
                     noteClicked={handleNoteClick}
-                    addNoteClicked={initializeAddNewNote} />
+                    addNoteClicked={initializeAddNewNote}
+                    noteId={noteId} />
                 <NoteEditor
                     noteTitle={noteTitle}
                     noteDescription={noteDescription}
                     noteTitleChanged={handleNoteTitleChange}
                     noteDescriptionChanged={handleNoteDescriptionChange}
-                    deleteClicked={handleDeleteNote}
+                    deleteClicked={() => handleDeleteNote(noteId)}
                     saveClicked={handleSaveNote} />
                 <CodeEditor
                     value={code}

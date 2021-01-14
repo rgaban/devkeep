@@ -15,6 +15,7 @@ const NotesList = (props) => {
                 noteId={note.id}
                 title={note.title}
                 noteClicked={props.noteClicked}
+                selected={note.id === props.noteId}
             />
         ));
     }

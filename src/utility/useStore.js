@@ -89,6 +89,22 @@ export const addNote = async (title, description, code) => {
     }
 };
 
+export const deleteNote = async (noteId) => {
+    try {
+        const { data, error } = await supabase
+            .from('notes')
+            .delete()
+            .match({ id: noteId});
+            if (error) {
+                throw new Error(error);
+            }
+            console.log(data);
+            return data;
+    } catch (error) {
+        console.log('error', error);
+    }
+};
+
 export const getNote = async (noteId) => {
     try {
         let { data, error } = await supabase
