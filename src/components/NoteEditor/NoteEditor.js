@@ -12,6 +12,7 @@ const NoteEditor = (props) => {
         <div className={classes.Container}>
             <input
                 autoFocus="autofocus"
+                defaultValue={props.titleDefaultValue}
                 value={props.noteTitle}
                 type="text"
                 onChange={props.noteTitleChanged}

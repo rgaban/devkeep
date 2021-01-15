@@ -10,13 +10,15 @@ export const useStore = (props) => {
     const [notes, setNotes] = useState([]);
     const [newNote, handleNewNote] = useState();
     const [noteListener, setNoteListener] = useState(null);
+    const [selectedNoteIndex, setSelectedNoteIndex] = useState(0);
 
     useEffect(() => {
         fetchNotes()
             .then(response => {
                 setNotes(response.sort((a, b) => b.id - a.id));
+                setSelectedNoteIndex(0);
             })
-            .catch(console.error);
+            .catch(console.error)
     }, []);
 
     useEffect(() => {
@@ -47,14 +49,14 @@ export const useStore = (props) => {
             setNoteListener(
                 supabase
                     .from('notes')
-                    .on('INSERT', (payload) => handleNewNote(payload.new))
+                    .on('DELETE', (payload) => handleNewNote(payload.new))
                     .on('UPDATE', (payload) => handleNewNote(payload.new))
                     .subscribe()
             )
         }
     }, [noteListener]);
 
-    return { notes, setNotes };
+    return { notes, setNotes, selectedNoteIndex, setSelectedNoteIndex };
 };
 
 export const fetchNotes = async () => {
@@ -95,6 +97,26 @@ export const deleteNote = async (noteId) => {
             .from('notes')
             .delete()
             .match({ id: noteId});
+            if (error) {
+                throw new Error(error);
+            }
+            console.log(data);
+            return data;
+    } catch (error) {
+        console.log('error', error);
+    }
+};
+
+export const updateNote = async (noteId, title, description, code) => {
+    try {
+        const { data, error } = await supabase
+            .from('notes')
+            .update({
+                title: title,
+                description: description,
+                code: code
+            })
+            .match({ id: noteId });
             if (error) {
                 throw new Error(error);
             }

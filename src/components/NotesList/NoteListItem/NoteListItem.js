@@ -7,7 +7,8 @@ const NoteListItem = (props) => {
             <ListItem
                 onClick={props.noteClicked}
                 data-id={props.noteId}
-                selected={props.selected}>
+                selected={props.selected}
+                button={true}>
                 {props.title}
             </ListItem>
         </div>

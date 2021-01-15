@@ -6,7 +6,7 @@ import { List } from '@material-ui/core';
 import classes from './NotesList.module.css';
 
 const NotesList = (props) => {
-    let notesList = <div>No Notes to Load..</div>;
+    let notesList = <div>Loading Notes..</div>;
 
     if (props.notes.length > 0) {
         notesList = props.notes.map(note => (
@@ -18,9 +18,11 @@ const NotesList = (props) => {
                 selected={note.id === props.noteId}
             />
         ));
-    } else {
+    };
+
+    if (props.notes === undefined) {
         notesList = <div>No Notes Found</div>
-    }
+    };
 
     return (
         <div className={classes.Container}>

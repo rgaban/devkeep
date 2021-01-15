@@ -7,9 +7,6 @@ import "ace-builds/src-noconflict/theme-monokai";
 import classes from './CodeEditor.module.css';
 
 const CodeEditor = (props) => {
-    const edit = () => {
-        console.log("Editing...");
-    }
     return (
         <div className={classes.Container}>
             <AceEditor
