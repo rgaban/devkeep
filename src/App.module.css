@@ -4,9 +4,9 @@
     padding: 0;
 }
 
-.Container {
+/* .Container {
     display: grid;
     height: 100vh;
     grid-template-columns: 1fr 2.5fr 2.5fr;
     grid-gap: 1%;
-}
+} */

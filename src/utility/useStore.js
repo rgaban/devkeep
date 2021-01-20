@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
-const supabase = createClient(
+export const supabase = createClient(
     process.env.REACT_APP_SUPABASE_URL,
     process.env.REACT_APP_SUPABASE_KEY
 );
@@ -10,16 +10,15 @@ export const useStore = (props) => {
     const [notes, setNotes] = useState([]);
     const [newNote, handleNewNote] = useState();
     const [noteListener, setNoteListener] = useState(null);
-    const [selectedNoteIndex, setSelectedNoteIndex] = useState(0);
-
-    useEffect(() => {
-        fetchNotes()
-            .then(response => {
-                setNotes(response.sort((a, b) => b.id - a.id));
-                setSelectedNoteIndex(0);
-            })
-            .catch(console.error)
-    }, []);
+    // const [selectedNoteIndex, setSelectedNoteIndex] = useState(0);
+    // useEffect(() => {
+    //     fetchNotes()
+    //         .then(response => {
+    //             setNotes(response.sort((a, b) => b.id - a.id));
+    //             // setSelectedNoteIndex(0);
+    //         })
+    //         .catch(console.error)
+    // }, []);
 
     useEffect(() => {
         const handleAsync = async () => {
@@ -49,6 +48,7 @@ export const useStore = (props) => {
             setNoteListener(
                 supabase
                     .from('notes')
+                    .on('INSERT', (payload) => handleNewNote(payload.new))
                     .on('DELETE', (payload) => handleNewNote(payload.new))
                     .on('UPDATE', (payload) => handleNewNote(payload.new))
                     .subscribe()
@@ -56,7 +56,7 @@ export const useStore = (props) => {
         }
     }, [noteListener]);
 
-    return { notes, setNotes, selectedNoteIndex, setSelectedNoteIndex };
+    return { notes, setNotes };
 };
 
 export const fetchNotes = async () => {
@@ -120,7 +120,6 @@ export const updateNote = async (noteId, title, description, code) => {
             if (error) {
                 throw new Error(error);
             }
-            console.log(data);
             return data;
     } catch (error) {
         console.log('error', error);

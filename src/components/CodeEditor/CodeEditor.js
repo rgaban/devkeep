@@ -6,7 +6,7 @@ import "ace-builds/src-noconflict/theme-monokai";
 
 import classes from './CodeEditor.module.css';
 
-const CodeEditor = (props) => {
+const codeEditor = (props) => {
     return (
         <div className={classes.Container}>
             <AceEditor
@@ -22,4 +22,4 @@ const CodeEditor = (props) => {
     )
 };
 
-export default CodeEditor;
+export default codeEditor;

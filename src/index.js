@@ -1,13 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+// import { AuthProvider } from './context/AuthContext';
+import { UserProvider } from './context/UserContext';
+import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <React.StrictMode>
+      <UserProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </UserProvider>
+    </React.StrictMode>,
   document.getElementById('root')
 );
 

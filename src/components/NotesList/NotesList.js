@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import NoteListItem from './NoteListItem/NoteListItem';
 import AddButton from '../UI/AddButton/AddButton';
 import { List } from '@material-ui/core';
@@ -6,6 +6,12 @@ import { List } from '@material-ui/core';
 import classes from './NotesList.module.css';
 
 const NotesList = (props) => {
+    // const { setSelectedNoteIndex } = useStore();
+
+    useEffect(() => {
+
+    }, []);
+
     let notesList = <div>Loading Notes..</div>;
 
     if (props.notes.length > 0) {
