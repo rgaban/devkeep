@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import { useAuth } from '../context/UserContext';
 
 export const supabase = createClient(
     process.env.REACT_APP_SUPABASE_URL,
@@ -59,11 +60,12 @@ export const useStore = (props) => {
     return { notes, setNotes };
 };
 
-export const fetchNotes = async () => {
+export const fetchNotes = async (user_id) => {
     try {
         let { data, error } = await supabase
             .from('notes')
-            .select();
+            .select()
+            .eq('user_id', user_id);
         if (error) {
             throw new Error(error);
         }
@@ -73,14 +75,15 @@ export const fetchNotes = async () => {
     }
 };
 
-export const addNote = async (title, description, code) => {
+export const addNote = async (title, description, code, user_id) => {
     try {
         let { data, error } = await supabase
             .from('notes')
             .insert([{
                 title,
                 description,
-                code
+                code,
+                user_id
             }]);
             if (error) {
                 throw new Error(error);
@@ -91,19 +94,22 @@ export const addNote = async (title, description, code) => {
     }
 };
 
-export const deleteNote = async (noteId) => {
+export const deleteNote = async (noteId, user_id) => {
     try {
         const { data, error } = await supabase
             .from('notes')
             .delete()
-            .match({ id: noteId});
+            .match({
+                id: noteId,
+                user_id: user_id
+            });
             if (error) {
                 throw new Error(error);
             }
             console.log(data);
             return data;
     } catch (error) {
-        console.log('error', error);
+        console.log(error);
     }
 };
 

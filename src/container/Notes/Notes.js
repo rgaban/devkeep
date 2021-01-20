@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../context/UserContext';
 import { addNote, deleteNote, updateNote, useStore, fetchNotes } from '../../utility/useStore';
 import NotesList from '../../components/NotesList/NotesList';
 import NoteEditor from '../../components/NoteEditor/NoteEditor';
@@ -7,6 +8,7 @@ import CodeEditor from '../../components/CodeEditor/CodeEditor';
 import classes from './Notes.module.css';
 
 export default function Notes() {
+    const { currentUser } = useAuth();
     const { notes, setNotes } = useStore();
     const [selectedNoteIndex, setSelectedNoteIndex] = useState(0);
     const [noteId, setNoteId] = useState(null);
@@ -18,7 +20,7 @@ export default function Notes() {
 
     useEffect(() => {
         // console.log(`[Notes.js] useEffect selectedNoteIndex ${selectedNoteIndex}`)
-        fetchNotes()
+        fetchNotes(currentUser.id)
             .then(response => {
                 if (!isAddingNote || isNoteEdited) {
                     setNotes(response.sort((a, b) => b.id - a.id));
@@ -74,14 +76,14 @@ export default function Notes() {
     const handleDeleteNote = (noteId) => {
         setIsAddingNote(false);
         setIsNoteEdited(true);
-        deleteNote(noteId);
+        deleteNote(noteId, currentUser.id);
         setNotes(notes.filter(note => note.id !== noteId));
     };
 
     const handleSaveNote = () => {
         // need to handle how to save untitled notes
         if (isAddingNote) {
-            addNote(noteTitle, noteDescription, code);
+            addNote(noteTitle, noteDescription, code, currentUser.id);
             setNotes([...notes]);
             setTimeout(() => null, 1000);
             alert(`New note created!`);

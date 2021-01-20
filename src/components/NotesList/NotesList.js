@@ -26,7 +26,7 @@ const NotesList = (props) => {
         ));
     };
 
-    if (props.notes === undefined) {
+    if (props.notes.length === 0) {
         notesList = <div>No Notes Found</div>
     };
 

@@ -24,7 +24,6 @@ export const UserProvider = (props) => {
                 throw new Error(error);
             }
             setCurrentUser(user);
-            console.log(user);
             return user;
         } catch (error) {
             console.log('error', error);
@@ -69,7 +68,6 @@ export const UserProvider = (props) => {
                 setCurrentUser(session.user);
             }
             setIsLoading(false);
-            console.log(event, session);
         });
         return unsubscribe;
     }, []);
