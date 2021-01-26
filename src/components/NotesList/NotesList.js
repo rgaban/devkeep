@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { useAuth } from '../../context/UserContext';
+import React from 'react';
 import NoteListItem from './NoteListItem/NoteListItem';
 import AddButton from '../UI/AddButton/AddButton';
 import { List } from '@material-ui/core';

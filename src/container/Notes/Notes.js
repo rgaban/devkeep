@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/UserContext';
 import { addNote, deleteNote, updateNote, useStore, fetchNotes } from '../../utility/useStore';
 import { useDebounce } from '../../utility/useDebounce';
@@ -28,6 +28,11 @@ export default function Notes() {
     const [theme, setTheme] = useState('github');
     const [isAddingNote, setIsAddingNote] = useState(false);
     const [isNoteEdited, setIsNoteEdited] = useState(false);
+    const titleInputEl = useRef();
+
+    useEffect(() => {
+        titleInputEl.current.focus();
+    });
 
     const notifySave = () => {
         toast.dark("Note successfully saved!", {
@@ -78,7 +83,7 @@ export default function Notes() {
                 }
             );
         }
-    }, [currentUser, isAddingNote, selectedNoteIndex]);
+    }, [currentUser, isAddingNote, selectedNoteIndex, setNotes]);
 
     const handleNoteClick = (e) => {
         const noteClickedIndex = notes.findIndex(note => note.id === parseInt(e.target.dataset.id));
@@ -116,6 +121,7 @@ export default function Notes() {
         setNoteDescription('');
         setCode('');
         setLanguage('javascript');
+        titleInputEl.current.focus();
     };
 
     const handleDeleteNote = (noteId) => {
@@ -129,7 +135,13 @@ export default function Notes() {
     const handleSaveNote = () => {
         // need to handle how to save untitled notes
         if (isAddingNote) {
-            addNote(noteTitle, noteDescription, code, language, currentUser.id);
+            let title = '';
+            if (noteTitle === '') {
+                title = 'Untitled'
+            } else {
+                title = noteTitle;
+            }
+            addNote(title, noteDescription, code, language, currentUser.id);
             setSelectedNoteIndex(0);
             setTimeout(() => null, 1000);
         } else {
@@ -171,6 +183,7 @@ export default function Notes() {
                     addNoteClicked={initializeAddNewNote}
                     noteId={noteId} />
                 <NoteEditor
+                    inputRef={titleInputEl}
                     noteTitle={noteTitle}
                     noteDescription={noteDescription}
                     noteTitleChanged={handleNoteTitleChange}
