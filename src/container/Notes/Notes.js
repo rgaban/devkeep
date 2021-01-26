@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/UserContext';
 import { addNote, deleteNote, updateNote, useStore, fetchNotes } from '../../utility/useStore';
+import { useDebounce } from '../../utility/useDebounce';
 import NotesList from '../../components/NotesList/NotesList';
 import NoteEditor from '../../components/NoteEditor/NoteEditor';
-import CodeEditor from '../../components/CodeEditor/CodeEditor';
+import CodeEditor, { languages } from '../../components/CodeEditor/CodeEditor';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import classes from './Notes.module.css';
+
+const debounce = (fn, delay) => {
+    let handler = setTimeout(() => null, );
+    return () => clearTimeout(handler);
+};
 
 export default function Notes() {
     const { currentUser } = useAuth();
@@ -15,95 +24,143 @@ export default function Notes() {
     const [noteTitle, setNoteTitle] = useState('');
     const [noteDescription, setNoteDescription] = useState('');
     const [code, setCode] = useState('');
+    const [language, setLanguage] = useState('javascript');
+    const [theme, setTheme] = useState('github');
     const [isAddingNote, setIsAddingNote] = useState(false);
     const [isNoteEdited, setIsNoteEdited] = useState(false);
 
+    const notifySave = () => {
+        toast.dark("Note successfully saved!", {
+            position: "bottom-right",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+        });
+    };
+
+    const notifyDelete = () => {
+        toast.dark("Note deleted!", {
+            position: "bottom-right",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+        });
+    };
+
     useEffect(() => {
-        // console.log(`[Notes.js] useEffect selectedNoteIndex ${selectedNoteIndex}`)
-        fetchNotes(currentUser.id)
-            .then(response => {
-                if (!isAddingNote || isNoteEdited) {
-                    setNotes(response.sort((a, b) => b.id - a.id));
-                    setNoteId(notes[selectedNoteIndex].id);
-                    setNoteTitle(notes[selectedNoteIndex].title);
-                    setNoteDescription(notes[selectedNoteIndex].description);
-                    setCode(notes[selectedNoteIndex].code);
-                } else {
-                    setSelectedNoteIndex(0);
-                    setNoteId(notes[0].id);
+        if (notes && notes.length > 0 && (!isAddingNote || !isNoteEdited)) {
+            setNoteId(notes[selectedNoteIndex].id);
+            setNoteTitle(notes[selectedNoteIndex].title);
+            setNoteDescription(notes[selectedNoteIndex].description);
+            setCode(notes[selectedNoteIndex].code);
+            setLanguage(notes[selectedNoteIndex].language);
+        }
+    }, [notes, setNotes]);
+
+    useEffect(() => {
+        if (notes && notes.length > 0 && !isAddingNote) {
+            let fetchedNotes = [];
+            fetchNotes(currentUser.id)
+                .then(response => {
+                    fetchedNotes = response.sort((a,b) => b.id - a.id);
+                    setNotes(fetchedNotes);
+                    setNoteId(fetchedNotes[selectedNoteIndex].id);
+                    setNoteTitle(fetchedNotes[selectedNoteIndex].title);
+                    setNoteDescription(fetchedNotes[selectedNoteIndex].description);
+                    setCode(fetchedNotes[selectedNoteIndex].code);
+                    setLanguage(fetchedNotes[selectedNoteIndex].language);
                 }
-            })
-            .catch(console.error)
-            .finally(
-                setIsNoteEdited(false)
             );
-    }, [isNoteEdited, isAddingNote, selectedNoteIndex]);
+        }
+    }, [currentUser, isAddingNote, selectedNoteIndex]);
 
     const handleNoteClick = (e) => {
-        if (!isAddingNote) {
-            // setSelectedNoteIndex(notes.findIndex(note => note.id === parseInt(e.target.dataset.id)));
+        const noteClickedIndex = notes.findIndex(note => note.id === parseInt(e.target.dataset.id));
+        setNoteId(notes[noteClickedIndex].id);
+        setNoteTitle(notes[noteClickedIndex].title);
+        setNoteDescription(notes[noteClickedIndex].description);
+        setCode(notes[noteClickedIndex].code);
+        setLanguage(notes[noteClickedIndex].language);
 
-            const noteClickedIndex = notes.findIndex(note => note.id === parseInt(e.target.dataset.id));
-            setNoteId(notes[noteClickedIndex].id);
-            setNoteTitle(notes[noteClickedIndex].title);
-            setNoteDescription(notes[noteClickedIndex].description);
-            setCode(notes[noteClickedIndex].code);
-        }
+        setSelectedNoteIndex(notes.findIndex(note => note.id === parseInt(e.target.dataset.id)));
     };
 
     const handleNoteTitleChange = (e) => {
-        // console.log('[Notes.js] handleNoteTitleChange...');
         setNoteTitle(e.target.value);
+        setIsNoteEdited(true);
     };
 
-    const handleNoteDescriptionChange = (e) => {
-        setNoteDescription(e);
+    const handleNoteDescriptionChange = (value, delta, source) => {
+        setNoteDescription(value);
+        if (source === 'user') {
+            setIsNoteEdited(true);
+        }
     };
 
-    const handleCodeChange = (e) => {
-        setCode(e);
+    const handleCodeChange = (value) => {
+        setCode(value);
+        setIsNoteEdited(true);
     };
 
     const initializeAddNewNote = () => {
         setIsAddingNote(true);
+        setSelectedNoteIndex(null);
         setNoteId(null);
         setNoteTitle('');
         setNoteDescription('');
         setCode('');
-        setSelectedNoteIndex(null);
+        setLanguage('javascript');
     };
 
     const handleDeleteNote = (noteId) => {
-        setIsAddingNote(false);
-        setIsNoteEdited(true);
-        deleteNote(noteId, currentUser.id);
         setNotes(notes.filter(note => note.id !== noteId));
+        setIsAddingNote(false);
+        deleteNote(noteId, currentUser.id);
+        setSelectedNoteIndex(selectedNoteIndex);
+        notifyDelete();
     };
 
     const handleSaveNote = () => {
         // need to handle how to save untitled notes
         if (isAddingNote) {
-            addNote(noteTitle, noteDescription, code, currentUser.id);
-            setNotes([...notes]);
+            addNote(noteTitle, noteDescription, code, language, currentUser.id);
+            setSelectedNoteIndex(0);
             setTimeout(() => null, 1000);
-            alert(`New note created!`);
         } else {
-            updateNote(noteId, noteTitle, noteDescription, code);
-            setNotes([...notes]);
-            // setSelectedNoteIndex(selectedNoteIndex - 1);
-            alert(`NoteId: ${noteId} saved!`);
+            updateNote(noteId, noteTitle, noteDescription, code, language);
         }
+        notifySave();
         setIsAddingNote(false);
-        // console.log(`[Notes.js] isAddingNote ${isAddingNote}`);
-        // console.log(`[Notes.js] selectedNoteIndex ${selectedNoteIndex}`);
     };
 
     useEffect(() => {
-        // wait 2000ms to set notes
-        const timeOut = setTimeout(() => null, 5000);
-        return () => clearTimeout(timeOut);
-    }, [noteTitle, noteDescription, code]);
+        const timeOut = setTimeout(() => {
+            if (isNoteEdited) {
+                handleSaveNote();
+            }
+            setIsNoteEdited(false);
+        }, 1000);
+        return () => {
+            clearTimeout(timeOut);
+        }
+    }, [isNoteEdited, noteTitle, noteDescription, code, language]);
 
+
+    const handleLanguageChange = (e) => {
+        setLanguage(e.target.value);
+        setIsNoteEdited(true);
+
+    };
+
+    const handleThemeChange = (e) => {
+        setTheme(e.target.value);
+    };
 
     return (
         <div>
@@ -122,7 +179,12 @@ export default function Notes() {
                     saveClicked={() => handleSaveNote()} />
                 <CodeEditor
                     value={code}
-                    codeChanged={handleCodeChange} />
+                    codeChanged={handleCodeChange}
+                    LanguageChanged={handleLanguageChange}
+                    language={language}
+                    ThemeChanged={handleThemeChange}
+                    theme={theme} />
+                <ToastContainer />
             </div>
         </div>
     )

@@ -8,54 +8,16 @@ export const supabase = createClient(
 );
 
 export const useStore = (props) => {
+    const { currentUser } = useAuth();
     const [notes, setNotes] = useState([]);
-    const [newNote, handleNewNote] = useState();
-    const [noteListener, setNoteListener] = useState(null);
-    // const [selectedNoteIndex, setSelectedNoteIndex] = useState(0);
-    // useEffect(() => {
-    //     fetchNotes()
-    //         .then(response => {
-    //             setNotes(response.sort((a, b) => b.id - a.id));
-    //             // setSelectedNoteIndex(0);
-    //         })
-    //         .catch(console.error)
-    // }, []);
 
     useEffect(() => {
-        const handleAsync = async () => {
-            if (newNote) {
-                // could be an update??
-                let update = notes.find((note, i) => {
-                    if (note.id === newNote.id) {
-                        notes[i] = newNote
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
-                if (update) {
-                    setNotes((n) => [...notes]) // update
-                } else {
-                    notes.unshift(newNote)
-                    setNotes((n) => [...notes]) // new
-                }
-            }
-        };
-        handleAsync();
-    }, [newNote]);
-
-    useEffect(() => {
-        if (!noteListener) {
-            setNoteListener(
-                supabase
-                    .from('notes')
-                    .on('INSERT', (payload) => handleNewNote(payload.new))
-                    .on('DELETE', (payload) => handleNewNote(payload.new))
-                    .on('UPDATE', (payload) => handleNewNote(payload.new))
-                    .subscribe()
-            )
-        }
-    }, [noteListener]);
+        fetchNotes(currentUser.id)
+            .then(response => {
+                setNotes(response.sort((a, b) => b.id - a.id));
+            })
+            .catch(console.error)
+    }, [currentUser.id]);
 
     return { notes, setNotes };
 };
@@ -72,10 +34,10 @@ export const fetchNotes = async (user_id) => {
         return data;
     } catch (error) {
         console.log('error', error);
-    }
+    };
 };
 
-export const addNote = async (title, description, code, user_id) => {
+export const addNote = async (title, description, code, language, user_id) => {
     try {
         let { data, error } = await supabase
             .from('notes')
@@ -83,7 +45,8 @@ export const addNote = async (title, description, code, user_id) => {
                 title,
                 description,
                 code,
-                user_id
+                user_id,
+                language
             }]);
             if (error) {
                 throw new Error(error);
@@ -91,7 +54,7 @@ export const addNote = async (title, description, code, user_id) => {
             return data;
     } catch (error) {
         console.log('error', error);
-    }
+    };
 };
 
 export const deleteNote = async (noteId, user_id) => {
@@ -106,21 +69,21 @@ export const deleteNote = async (noteId, user_id) => {
             if (error) {
                 throw new Error(error);
             }
-            console.log(data);
             return data;
     } catch (error) {
         console.log(error);
     }
 };
 
-export const updateNote = async (noteId, title, description, code) => {
+export const updateNote = async (noteId, title, description, code, language) => {
     try {
         const { data, error } = await supabase
             .from('notes')
             .update({
                 title: title,
                 description: description,
-                code: code
+                code: code,
+                language: language
             })
             .match({ id: noteId });
             if (error) {

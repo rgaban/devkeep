@@ -1,8 +1,9 @@
 .Container {
     display: grid;
     margin-top: 55px;
-    height: 90vh;
+    height: 94vh;
     overflow: hidden;
     grid-template-columns: 1fr 2.5fr 2.5fr;
     grid-gap: 1%;
+    overflow-y: hidden;
 }

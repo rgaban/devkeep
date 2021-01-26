@@ -1,5 +1,37 @@
 .Container {
-    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
     box-sizing: border-box;
     max-width: 500px;
+}
+
+.DropdownContainer {
+    display: flex;
+    margin: 15px 0;
+}
+
+.LanguagesContainer {
+    display: flex;
+
+}
+
+.LanguagesContainer label {
+
+}
+
+.LanguagesContainer select {
+
+}
+
+.ThemeContainer {
+    display: flex;
+}
+
+.ThemeContainer label {
+
+}
+
+.ThemeContainer select {
+
 }

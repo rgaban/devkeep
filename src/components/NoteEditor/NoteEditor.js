@@ -15,13 +15,16 @@ const NoteEditor = (props) => {
                 value={props.noteTitle}
                 type="text"
                 onChange={props.noteTitleChanged}
-                placeholder="Title..." >
+                placeholder="Title..."
+                tabIndex="1" >
             </input>
             <ReactQuill
-                value={props.noteDescription}
+                value={props.noteDescription || ''}
                 onChange={props.noteDescriptionChanged}
+                placeholder="Note description..."
+                tabIndex="2"
                 style={{
-                    height: "50vh"
+                    height: "500px"
                 }}>
 
             </ReactQuill>

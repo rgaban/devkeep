@@ -4,6 +4,7 @@
     max-width: 550px;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
 }
 
 .Container input {
@@ -14,7 +15,8 @@
 }
 
 .ActionsContainer {
-    margin-top: 50px;
+    margin-top: 70px;
+    padding: 0;
     display: flex;
     justify-content: flex-end;
 }
@@ -22,7 +24,3 @@
 .ActionsContainer > * {
     padding-left: 20px;
 }
-
-/* .ql-editor {
-    min-height: 30vh;
-} */
