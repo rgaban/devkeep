@@ -1,6 +1,6 @@
 import React from 'react';
 
-import devKeepLogo from '../../assets/logo_transparent.png';
+import devKeepLogo from '../../assets/devKeep.png';
 import classes from './Logo.module.css';
 
 const logo = (props) => (

@@ -30,9 +30,9 @@ export default function Notes() {
     const [isNoteEdited, setIsNoteEdited] = useState(false);
     const titleInputEl = useRef();
 
-    useEffect(() => {
-        titleInputEl.current.focus();
-    });
+    // useEffect(() => {
+    //     titleInputEl.current.focus();
+    // });
 
     const notifySave = () => {
         toast.dark("Note successfully saved!", {
@@ -59,6 +59,7 @@ export default function Notes() {
     };
 
     useEffect(() => {
+        titleInputEl.current.focus();
         if (notes && notes.length > 0 && (!isAddingNote || !isNoteEdited)) {
             setNoteId(notes[selectedNoteIndex].id);
             setNoteTitle(notes[selectedNoteIndex].title);
@@ -69,6 +70,10 @@ export default function Notes() {
     }, [notes, setNotes]);
 
     useEffect(() => {
+        console.log('isAddingNote ', isAddingNote);
+        console.log('selectedNoteIndex', selectedNoteIndex);
+        console.log('noteId ', noteId);
+        console.log(notes.length);
         if (notes && notes.length > 0 && !isAddingNote) {
             let fetchedNotes = [];
             fetchNotes(currentUser.id)
@@ -83,9 +88,10 @@ export default function Notes() {
                 }
             );
         }
-    }, [currentUser, isAddingNote, selectedNoteIndex, setNotes]);
+    }, [currentUser, selectedNoteIndex]);
 
     const handleNoteClick = (e) => {
+        setIsAddingNote(false);
         const noteClickedIndex = notes.findIndex(note => note.id === parseInt(e.target.dataset.id));
         setNoteId(notes[noteClickedIndex].id);
         setNoteTitle(notes[noteClickedIndex].title);
@@ -134,6 +140,7 @@ export default function Notes() {
 
     const handleSaveNote = () => {
         // need to handle how to save untitled notes
+        console.log('save');
         if (isAddingNote) {
             let title = '';
             if (noteTitle === '') {
@@ -142,13 +149,21 @@ export default function Notes() {
                 title = noteTitle;
             }
             addNote(title, noteDescription, code, language, currentUser.id);
-            setSelectedNoteIndex(0);
-            setTimeout(() => null, 1000);
+            setIsAddingNote(false);
+            // setSelectedNoteIndex(0);
+            setNotes([{
+                id: title,
+                description: noteDescription,
+                code: code,
+                user_id: currentUser.id,
+                language: language
+            }, ...notes]);
+            console.log('[SAVE] setSelectedNoteIndex(0) ');
+            console.log('[SAVE] setIsAddingNote ');
         } else {
             updateNote(noteId, noteTitle, noteDescription, code, language);
         }
         notifySave();
-        setIsAddingNote(false);
     };
 
     useEffect(() => {
@@ -157,11 +172,11 @@ export default function Notes() {
                 handleSaveNote();
             }
             setIsNoteEdited(false);
-        }, 1000);
+        }, 3000);
         return () => {
             clearTimeout(timeOut);
         }
-    }, [isNoteEdited, noteTitle, noteDescription, code, language]);
+    }, [isAddingNote, isNoteEdited, noteTitle, noteDescription, code, language]);
 
 
     const handleLanguageChange = (e) => {

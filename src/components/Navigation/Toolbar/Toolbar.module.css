@@ -1,10 +1,10 @@
 .Toolbar {
-    height: 50px;
+    height: 80px;
     width: 100%;
     position: fixed;
     top: 0;
     left: 0;
-    background-color: rgba(146, 158, 179, 0.933);
+    background-color: #5f6c7b;
     display: flex;
     justify-content: space-between;
     align-items: center;

@@ -4,6 +4,7 @@
     height: 70vh;
     box-sizing: border-box;
     max-width: 500px;
+    margin-top: 20px;
 }
 
 .DropdownContainer {
