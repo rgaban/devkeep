@@ -1,26 +1,9 @@
-import React, { useState, useEffect } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { useAuth } from '../context/UserContext';
 
 export const supabase = createClient(
     process.env.REACT_APP_SUPABASE_URL,
     process.env.REACT_APP_SUPABASE_KEY
 );
-
-export const useStore = (props) => {
-    const { currentUser } = useAuth();
-    const [notes, setNotes] = useState([]);
-
-    useEffect(() => {
-        fetchNotes(currentUser.id)
-            .then(response => {
-                setNotes(response.sort((a, b) => b.id - a.id));
-            })
-            .catch(console.error)
-    }, [currentUser.id]);
-
-    return { notes, setNotes };
-};
 
 export const fetchNotes = async (user_id) => {
     try {

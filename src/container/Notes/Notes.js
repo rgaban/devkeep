@@ -1,24 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../context/UserContext';
-import { addNote, deleteNote, updateNote, useStore, fetchNotes } from '../../utility/useStore';
-import { useDebounce } from '../../utility/useDebounce';
+import { addNote, deleteNote, updateNote, fetchNotes } from '../../utility/Store';
 import NotesList from '../../components/NotesList/NotesList';
 import NoteEditor from '../../components/NoteEditor/NoteEditor';
-import CodeEditor, { languages } from '../../components/CodeEditor/CodeEditor';
+import CodeEditor from '../../components/CodeEditor/CodeEditor';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import classes from './Notes.module.css';
 
-const debounce = (fn, delay) => {
-    let handler = setTimeout(() => null, );
-    return () => clearTimeout(handler);
-};
-
 export default function Notes() {
     const { currentUser } = useAuth();
-    const { notes, setNotes } = useStore();
+    const [notes, setNotes] = useState([]);
     const [selectedNoteIndex, setSelectedNoteIndex] = useState(0);
     const [noteId, setNoteId] = useState(null);
     const [noteTitle, setNoteTitle] = useState('');
@@ -30,9 +24,73 @@ export default function Notes() {
     const [isNoteEdited, setIsNoteEdited] = useState(false);
     const titleInputEl = useRef();
 
-    // useEffect(() => {
-    //     titleInputEl.current.focus();
-    // });
+    useEffect(() => {
+        console.log('[App.js] useEffect fetchNotes');
+        if (currentUser) {
+            let fetchedNotes = [];
+            fetchNotes(currentUser.id)
+                .then(response => {
+                    fetchedNotes = response.sort((a, b) => b.id - a.id);
+                    setNotes(fetchedNotes);
+                    setNoteId(fetchedNotes[selectedNoteIndex].id);
+                    setNoteTitle(fetchedNotes[selectedNoteIndex].title);
+                    setNoteDescription(fetchedNotes[selectedNoteIndex].description);
+                    setCode(fetchedNotes[selectedNoteIndex].code);
+                    setLanguage(fetchedNotes[selectedNoteIndex].language);
+                }
+            );
+        }
+    }, []);
+
+    useEffect(() => {
+        titleInputEl.current.focus();
+        if (notes && notes.length > 0 && !isNoteEdited) {
+            setNoteId(notes[selectedNoteIndex].id);
+            setNoteTitle(notes[selectedNoteIndex].title);
+            setNoteDescription(notes[selectedNoteIndex].description);
+            setCode(notes[selectedNoteIndex].code);
+            setLanguage(notes[selectedNoteIndex].language);
+        }
+    }, [notes, setNotes, selectedNoteIndex]);
+
+
+    const handleNoteTitleChange = (e) => {
+        setNoteTitle(e.target.value);
+        setIsNoteEdited(true);
+    };
+
+    const handleNoteDescriptionChange = (value, delta, source) => {
+        setNoteDescription(value);
+        if (source === 'user') {
+            setIsNoteEdited(true);
+        }
+    };
+
+    const handleCodeChange = (value) => {
+        setCode(value);
+        setIsNoteEdited(true);
+    };
+
+    const handleLanguageChange = (e) => {
+        setLanguage(e.target.value);
+        setIsNoteEdited(true);
+
+    };
+
+    const handleThemeChange = (e) => {
+        setTheme(e.target.value);
+    };
+
+    const initializeAddNewNote = () => {
+        setIsAddingNote(true);
+        setIsNoteEdited(false);
+        setNoteId(null);
+        setNoteTitle('');
+        setNoteDescription('');
+        setCode('');
+        setLanguage('javascript');
+        titleInputEl.current.focus();
+    };
 
     const notifySave = () => {
         toast.dark("Note successfully saved!", {
@@ -58,112 +116,61 @@ export default function Notes() {
         });
     };
 
-    useEffect(() => {
-        titleInputEl.current.focus();
-        if (notes && notes.length > 0 && (!isAddingNote || !isNoteEdited)) {
-            setNoteId(notes[selectedNoteIndex].id);
-            setNoteTitle(notes[selectedNoteIndex].title);
-            setNoteDescription(notes[selectedNoteIndex].description);
-            setCode(notes[selectedNoteIndex].code);
-            setLanguage(notes[selectedNoteIndex].language);
-        }
-    }, [notes, setNotes]);
-
-    useEffect(() => {
-        console.log('isAddingNote ', isAddingNote);
-        console.log('selectedNoteIndex', selectedNoteIndex);
-        console.log('noteId ', noteId);
-        console.log(notes.length);
-        if (notes && notes.length > 0 && !isAddingNote) {
-            let fetchedNotes = [];
-            fetchNotes(currentUser.id)
-                .then(response => {
-                    fetchedNotes = response.sort((a,b) => b.id - a.id);
-                    setNotes(fetchedNotes);
-                    setNoteId(fetchedNotes[selectedNoteIndex].id);
-                    setNoteTitle(fetchedNotes[selectedNoteIndex].title);
-                    setNoteDescription(fetchedNotes[selectedNoteIndex].description);
-                    setCode(fetchedNotes[selectedNoteIndex].code);
-                    setLanguage(fetchedNotes[selectedNoteIndex].language);
-                }
-            );
-        }
-    }, [currentUser, selectedNoteIndex]);
-
-    const handleNoteClick = (e) => {
-        setIsAddingNote(false);
-        const noteClickedIndex = notes.findIndex(note => note.id === parseInt(e.target.dataset.id));
-        setNoteId(notes[noteClickedIndex].id);
-        setNoteTitle(notes[noteClickedIndex].title);
-        setNoteDescription(notes[noteClickedIndex].description);
-        setCode(notes[noteClickedIndex].code);
-        setLanguage(notes[noteClickedIndex].language);
-
-        setSelectedNoteIndex(notes.findIndex(note => note.id === parseInt(e.target.dataset.id)));
-    };
-
-    const handleNoteTitleChange = (e) => {
-        setNoteTitle(e.target.value);
-        setIsNoteEdited(true);
-    };
-
-    const handleNoteDescriptionChange = (value, delta, source) => {
-        setNoteDescription(value);
-        if (source === 'user') {
-            setIsNoteEdited(true);
-        }
-    };
-
-    const handleCodeChange = (value) => {
-        setCode(value);
-        setIsNoteEdited(true);
-    };
-
-    const initializeAddNewNote = () => {
-        setIsAddingNote(true);
-        setSelectedNoteIndex(null);
-        setNoteId(null);
-        setNoteTitle('');
-        setNoteDescription('');
-        setCode('');
-        setLanguage('javascript');
-        titleInputEl.current.focus();
-    };
-
     const handleDeleteNote = (noteId) => {
-        setNotes(notes.filter(note => note.id !== noteId));
         setIsAddingNote(false);
-        deleteNote(noteId, currentUser.id);
-        setSelectedNoteIndex(selectedNoteIndex);
+        deleteNote(noteId, currentUser.id)
+            .then(response => {
+                setNotes(notes.filter(note => note.id !== noteId));
+            });
         notifyDelete();
     };
 
     const handleSaveNote = () => {
         // need to handle how to save untitled notes
         console.log('save');
+        console.log('isNoteEdited', isNoteEdited);
         if (isAddingNote) {
+            setSelectedNoteIndex(0);
             let title = '';
             if (noteTitle === '') {
                 title = 'Untitled'
             } else {
                 title = noteTitle;
             }
-            addNote(title, noteDescription, code, language, currentUser.id);
+            addNote(title, noteDescription, code, language, currentUser.id)
+                .then(response => {
+                    setNotes([{
+                        id: response[0].id,
+                        title: response[0].title,
+                        description: response[0].description,
+                        code: response[0].code,
+                        language: response[0].language,
+                        user_id: response[0].user_id
+                    }, ...notes]);
+                });
             setIsAddingNote(false);
-            // setSelectedNoteIndex(0);
-            setNotes([{
-                id: title,
-                description: noteDescription,
-                code: code,
-                user_id: currentUser.id,
-                language: language
-            }, ...notes]);
-            console.log('[SAVE] setSelectedNoteIndex(0) ');
-            console.log('[SAVE] setIsAddingNote ');
+            setIsNoteEdited(false);
         } else {
-            updateNote(noteId, noteTitle, noteDescription, code, language);
+            updateNote(noteId, noteTitle, noteDescription, code, language)
+                .then(response => {
+                    notes.splice(selectedNoteIndex, 1, {
+                        id: response[0].id,
+                        title: response[0].title,
+                        description: response[0].description,
+                        code: response[0].code,
+                        language: response[0].language,
+                        user_id: response[0].user_id
+                    })
+                });
+            setIsNoteEdited(false);
         }
         notifySave();
+    };
+
+    const handleNoteClick = (e) => {
+        titleInputEl.current.focus();
+        setIsAddingNote(false);
+        setSelectedNoteIndex(notes.findIndex(note => note.id === parseInt(e.target.dataset.id)));
     };
 
     useEffect(() => {
@@ -178,16 +185,6 @@ export default function Notes() {
         }
     }, [isAddingNote, isNoteEdited, noteTitle, noteDescription, code, language]);
 
-
-    const handleLanguageChange = (e) => {
-        setLanguage(e.target.value);
-        setIsNoteEdited(true);
-
-    };
-
-    const handleThemeChange = (e) => {
-        setTheme(e.target.value);
-    };
 
     return (
         <div>

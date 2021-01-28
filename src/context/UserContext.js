@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { supabase } from '../utility/useStore';
-import { useHistory } from 'react-router-dom';
+import { supabase } from '../utility/Store';
 
 const UserContext = createContext();
 
@@ -9,8 +8,6 @@ export const useAuth = () => {
 };
 
 export const UserProvider = (props) => {
-    const history = useHistory();
-    const [session, setSession] = useState();
     const [currentUser, setCurrentUser] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -52,13 +49,9 @@ export const UserProvider = (props) => {
             if (error) {
                 throw new Error(error);
             }
-            setSession(null);
             setCurrentUser(null);
         } catch (error) {
             console.log('error', error);
-        } finally {
-            // setSession(null);
-            // setCurrentUser(null);
         }
     };
 
@@ -73,7 +66,6 @@ export const UserProvider = (props) => {
     }, []);
 
     const value = {
-        session,
         currentUser,
         signup,
         login,
