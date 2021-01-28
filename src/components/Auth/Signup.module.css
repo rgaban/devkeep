@@ -45,24 +45,33 @@
 }
 
 .BtnSubmit {
+    outline: none;
     text-align: center;
-    display:inline-block;
-    padding:0.3em 1.2em;
-    margin:0.3em 0.3em 0.3em 0;
-    border-radius:2em;
+    display: inline-block;
+    padding: 0.3em 1.2em;
+    margin: 1em 0.3em 0.3em 0;
+    border-radius: 10em;
+    height: 40px;
+    width: 50%;
     box-sizing: border-box;
     text-decoration:none;
     font-family:'Roboto',sans-serif;
-    font-weight:300;
-    color:#FFFFFF;
-    background-color:#4eb5f1;
+    font-weight: 400;
+    font-size: 15px;
+    color: #ffffff;
+    background-color:#5f6c7b;
     text-align:center;
     transition: all 0.2s;
 }
 
 .BtnSubmit:hover {
-    background-color: #4095c6;
+    background-color: #4b5561;
 }
+
+/* .BtnSubmit:active {
+    outline: 0;
+    background-image: none;
+} */
 
 .Login {
     margin: 2em 1em;
