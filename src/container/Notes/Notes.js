@@ -25,11 +25,11 @@ export default function Notes() {
     const titleInputEl = useRef();
 
     useEffect(() => {
-        console.log('[App.js] useEffect fetchNotes');
         if (currentUser) {
             let fetchedNotes = [];
             fetchNotes(currentUser.id)
                 .then(response => {
+                    console.log(response);
                     fetchedNotes = response.sort((a, b) => b.id - a.id);
                     setNotes(fetchedNotes);
                     setNoteId(fetchedNotes[selectedNoteIndex].id);
@@ -127,8 +127,6 @@ export default function Notes() {
 
     const handleSaveNote = () => {
         // need to handle how to save untitled notes
-        console.log('save');
-        console.log('isNoteEdited', isNoteEdited);
         if (isAddingNote) {
             setSelectedNoteIndex(0);
             let title = '';
@@ -153,14 +151,16 @@ export default function Notes() {
         } else {
             updateNote(noteId, noteTitle, noteDescription, code, language)
                 .then(response => {
-                    notes.splice(selectedNoteIndex, 1, {
+                    const newNotes = [...notes];
+                    newNotes[selectedNoteIndex] = {
                         id: response[0].id,
                         title: response[0].title,
                         description: response[0].description,
                         code: response[0].code,
                         language: response[0].language,
                         user_id: response[0].user_id
-                    })
+                    };
+                    setNotes(newNotes);
                 });
             setIsNoteEdited(false);
         }
