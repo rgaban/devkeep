@@ -25,21 +25,24 @@ export default function Notes() {
     const titleInputEl = useRef();
 
     useEffect(() => {
+        let isSubscribed = true;
         if (currentUser) {
             let fetchedNotes = [];
             fetchNotes(currentUser.id)
                 .then(response => {
-                    console.log(response);
-                    fetchedNotes = response.sort((a, b) => b.id - a.id);
-                    setNotes(fetchedNotes);
-                    setNoteId(fetchedNotes[selectedNoteIndex].id);
-                    setNoteTitle(fetchedNotes[selectedNoteIndex].title);
-                    setNoteDescription(fetchedNotes[selectedNoteIndex].description);
-                    setCode(fetchedNotes[selectedNoteIndex].code);
-                    setLanguage(fetchedNotes[selectedNoteIndex].language);
+                    if (isSubscribed) {
+                        fetchedNotes = response.sort((a, b) => b.id - a.id);
+                        setNotes(fetchedNotes);
+                        setNoteId(fetchedNotes[selectedNoteIndex].id);
+                        setNoteTitle(fetchedNotes[selectedNoteIndex].title);
+                        setNoteDescription(fetchedNotes[selectedNoteIndex].description);
+                        setCode(fetchedNotes[selectedNoteIndex].code);
+                        setLanguage(fetchedNotes[selectedNoteIndex].language);
+                    };
                 }
             );
         }
+        return () => (isSubscribed = false);
     }, []);
 
     useEffect(() => {

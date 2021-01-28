@@ -9,7 +9,7 @@ export const useAuth = () => {
 
 export const UserProvider = (props) => {
     const [currentUser, setCurrentUser] = useState();
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
     const signup = async (email, password) => {
         try {
@@ -24,6 +24,8 @@ export const UserProvider = (props) => {
             return user;
         } catch (error) {
             console.log('error', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -40,6 +42,8 @@ export const UserProvider = (props) => {
             return user;
         } catch (error) {
             console.log('error', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -52,6 +56,8 @@ export const UserProvider = (props) => {
             setCurrentUser(null);
         } catch (error) {
             console.log('error', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -74,7 +80,7 @@ export const UserProvider = (props) => {
 
     return (
         <UserContext.Provider value={value}>
-            {props.children}
+            {!isLoading && props.children}
         </UserContext.Provider>
     );
 };
