@@ -15,6 +15,9 @@ Your not so typical note taking app, geared for developers, with a twist to add 
 ## Wireframe
 <p align="center"><img width=100% src="./src/assets/wireframe.png"></p>
 
+## Usage
+<p align="center"><img width=100% src="./src/assets/usage.png"></p>
+
 ## Technologies & Plugins
 - Frontend: React.js
 - Backend: [Supbase.io](https://app.supabase.io/): hosted Postgres database with restful API with Supabase.js
