@@ -22,6 +22,7 @@ export default function Notes() {
     const [theme, setTheme] = useState('github');
     const [isAddingNote, setIsAddingNote] = useState(false);
     const [isNoteEdited, setIsNoteEdited] = useState(false);
+    // const [isNoteRequestPending, setIsNoteRequestPending] = useState(false);
     const titleInputEl = useRef();
 
     useEffect(() => {
@@ -59,7 +60,6 @@ export default function Notes() {
 
     const handleNoteTitleChange = (e) => {
         setNoteTitle(e.target.value);
-        console.log(e);
         setIsNoteEdited(true);
     };
 
@@ -120,13 +120,41 @@ export default function Notes() {
         });
     };
 
+    const notifySaveError = () => {
+        toast.error("There was an issue saving your note, please try again!", {
+            position: "bottom-right",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+        });
+    };
+
+    const notifyDeleteError = () => {
+        toast.error("There was an issue deleting your note, please try again!", {
+            position: "bottom-right",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined
+        });
+    }
+
     const handleDeleteNote = (noteId) => {
         setIsAddingNote(false);
         deleteNote(noteId, currentUser.id)
             .then(response => {
-                setNotes(notes.filter(note => note.id !== noteId));
+                if (response) {
+                    notifyDelete();
+                    setNotes(notes.filter(note => note.id !== noteId));
+                } else {
+                    notifyDeleteError();
+                };
             });
-        notifyDelete();
     };
 
     const handleSaveNote = () => {
@@ -139,36 +167,46 @@ export default function Notes() {
             } else {
                 title = noteTitle;
             }
+
             addNote(title, noteDescription, code, language, currentUser.id)
                 .then(response => {
-                    setNotes([{
-                        id: response[0].id,
-                        title: response[0].title,
-                        description: response[0].description,
-                        code: response[0].code,
-                        language: response[0].language,
-                        user_id: response[0].user_id
-                    }, ...notes]);
+                    if (response) {
+                        notifySave();
+                        setNotes([{
+                            id: response[0].id,
+                            title: response[0].title,
+                            description: response[0].description,
+                            code: response[0].code,
+                            language: response[0].language,
+                            user_id: response[0].user_id
+                        }, ...notes]);
+                    } else {
+                        notifySaveError();
+                    }
                 });
             setIsAddingNote(false);
             setIsNoteEdited(false);
         } else {
             updateNote(noteId, noteTitle, noteDescription, code, language)
                 .then(response => {
-                    const newNotes = [...notes];
-                    newNotes[selectedNoteIndex] = {
-                        id: response[0].id,
-                        title: response[0].title,
-                        description: response[0].description,
-                        code: response[0].code,
-                        language: response[0].language,
-                        user_id: response[0].user_id
+                    if (response) {
+                        notifySave();
+                        const newNotes = [...notes];
+                        newNotes[selectedNoteIndex] = {
+                            id: response[0].id,
+                            title: response[0].title,
+                            description: response[0].description,
+                            code: response[0].code,
+                            language: response[0].language,
+                            user_id: response[0].user_id
+                        };
+                        setNotes(newNotes);
+                    } else {
+                        notifySaveError();
                     };
-                    setNotes(newNotes);
                 });
             setIsNoteEdited(false);
-        }
-        notifySave();
+        };
     };
 
     const handleNoteClick = (e) => {
@@ -180,7 +218,7 @@ export default function Notes() {
     useEffect(() => {
         const timeOut = setTimeout(() => {
             if (isNoteEdited) {
-                handleSaveNote();
+                handleSaveNote()
             }
             setIsNoteEdited(false);
         }, 3000);

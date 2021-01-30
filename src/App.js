@@ -12,7 +12,9 @@ import classes from './App.module.css';
 function App() {
   const { currentUser, login, signup } = useAuth() || {};
 
-  const { emailRef, passwordRef, passwordConfirmRef } = useRef();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
 
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
