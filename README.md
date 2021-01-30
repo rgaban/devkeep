@@ -5,7 +5,7 @@ Your not so typical note taking app, geared for developers, with a twist to add 
 - Live demo: https://rgaban.github.io/devkeep/
 
 ## Features
-- Supports Optimistic UI Rendering! 🎉
+- Supports Optimistic UI Rendering! 🎉  For an improved & snappier user experience.
 - Authentication to keep user notes protected.
 - Create, read, update, and delete notes with rich text editors.
 - Auto-Save functionality upon adds & edits.
@@ -13,6 +13,7 @@ Your not so typical note taking app, geared for developers, with a twist to add 
 - Code language syntax highlights & code editor themes.
 
 ## Wireframe
+<p align="center"><img width=100% src="./src/assets/wireframe.png"></p>
 
 ## Technologies & Plugins
 - Frontend: React.js
