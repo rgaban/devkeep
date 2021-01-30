@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import classes from './Notes.module.css';
 
 export default function Notes() {
-    const { currentUser } = useAuth();
+    const { currentUser } = useAuth() || {};
     const [notes, setNotes] = useState([]);
     const [selectedNoteIndex, setSelectedNoteIndex] = useState(0);
     const [noteId, setNoteId] = useState(null);
@@ -59,6 +59,7 @@ export default function Notes() {
 
     const handleNoteTitleChange = (e) => {
         setNoteTitle(e.target.value);
+        console.log(e);
         setIsNoteEdited(true);
     };
 

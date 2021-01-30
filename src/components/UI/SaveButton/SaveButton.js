@@ -7,7 +7,7 @@ import classes from './SaveButton.module.css'
 const SaveButton = (props) => {
     return (
         <div className={classes.SaveButton}>
-            <button>
+            <button title="saveBtn">
                 <SaveAltRounded
                     style={{ fontSize: "35px" }}
                     onClick={props.clicked} />

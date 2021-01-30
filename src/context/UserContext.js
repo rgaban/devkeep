@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '../utility/Store';
 
-const UserContext = createContext();
+export const UserContext = createContext();
 
 export const useAuth = () => {
     return useContext(UserContext);

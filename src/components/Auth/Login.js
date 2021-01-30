@@ -1,47 +1,26 @@
-import React, { useState, useRef } from 'react';
+import React from 'react';
 // import { useAuth } from '../../context/AuthContext';
-import { Link, useHistory } from 'react-router-dom';
-import { useAuth } from '../../context/UserContext';
+import { Link } from 'react-router-dom';
 import classes from './Signup.module.css';
 
-const Login = () => {
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const { login } = useAuth();
-    const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const history = useHistory();
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            setError('');
-            setIsLoading(true);
-            await login(emailRef.current.value, passwordRef.current.value)
-                .then(setIsLoading(false));
-                history.push('/');
-        } catch {
-            setError('Failed to sign in');
-        }
-    };
-
+const Login = (props) => {
     return (
         <div className={classes.Container}>
             <div>
                 <div className={classes.Card}>
                     <div className={classes.CardBody}>
                         <h2>Log In</h2>
-                        {error}
-                        <form onSubmit={handleSubmit}>
-                            <div id="email" className={classes.FormGroup}>
-                                <label>Email</label>
-                                <input type="email" ref={emailRef} required></input>
+                        {props.error}
+                        <form onSubmit={props.onSubmit} data-testid="form">
+                            <div className={classes.FormGroup}>
+                                <label htmlFor="email">Email</label>
+                                <input id="email" label="email" type="email" ref={props.emailRef} required></input>
                             </div>
-                            <div id="password" className={classes.FormGroup}>
-                                <label>Password</label>
-                                <input type="password" ref={passwordRef} required></input>
+                            <div className={classes.FormGroup}>
+                                <label htmlFor="password">Password</label>
+                                <input id="password" label="password" type="password" ref={props.passwordRef} required></input>
                             </div>
-                            <button disabled={isLoading} type="submit" className={classes.BtnSubmit}>Log In</button>
+                            <button disabled={props.btnDisabled} type="submit" className={classes.BtnSubmit}>Log In</button>
                         </form>
                     </div>
                 </div>

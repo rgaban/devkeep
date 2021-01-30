@@ -6,7 +6,7 @@ import NavigationItem from './NavigationItem/NavigationItem';
 import classes from './Navigation.module.css';
 
 const Navigation = (props) => {
-    const { currentUser, logout } = useAuth();
+    const { currentUser, logout } = useAuth() || {};
     const history = useHistory();
     const [error, setError] = useState('');
 

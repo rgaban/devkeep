@@ -1,9 +1,10 @@
 import React from 'react';
+import "ace-builds";
 import AceEditor from 'react-ace';
 import LanguageIcn from '../UI/LanguageIcn/LanguageIcn';
 import PaletteIcn from '../UI/PaletteIcn/PaletteIcn';
 
-import 'ace-builds/webpack-resolver';
+// import 'ace-builds/webpack-resolver';
 
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/theme-monokai";

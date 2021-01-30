@@ -7,7 +7,7 @@ import classes from './AddButton.module.css';
 const AddButton = (props) => {
     return (
         <div className={classes.AddButton}>
-            <button><AddCircle onClick={props.clicked}/></button>
+            <button title="addBtn"><AddCircle onClick={props.clicked}/></button>
         </div>
     )
 };
