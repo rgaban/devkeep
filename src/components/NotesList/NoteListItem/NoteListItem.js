@@ -2,6 +2,10 @@ import React from 'react';
 import { ListItem } from '@material-ui/core';
 
 const NoteListItem = (props) => {
+    const removeHTMLTags = (str) => {
+        return str.replace(/<[^>]*?/gm, '');
+    };
+
     return (
         <div>
             <ListItem
@@ -9,7 +13,7 @@ const NoteListItem = (props) => {
                 data-id={props.noteId}
                 selected={props.selected}
                 button={true}>
-                {props.title}
+                {removeHTMLTags(props.title.substring(0, 30) + '...')}
             </ListItem>
         </div>
     )
