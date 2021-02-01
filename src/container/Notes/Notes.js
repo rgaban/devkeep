@@ -31,7 +31,8 @@ export default function Notes() {
             let fetchedNotes = [];
             fetchNotes(currentUser.id)
                 .then(response => {
-                    if (isSubscribed) {
+                    if (isSubscribed && response.length > 0) {
+                        console.log(response);
                         fetchedNotes = response.sort((a, b) => b.id - a.id);
                         setNotes(fetchedNotes);
                         setNoteId(fetchedNotes[selectedNoteIndex].id);

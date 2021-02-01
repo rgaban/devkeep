@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/UserContext';
-import { useHistory } from 'react-router-dom';
+import { useHistory, HashRouter } from 'react-router-dom';
 import NavigationItem from './NavigationItem/NavigationItem';
 
 import classes from './Navigation.module.css';
@@ -14,7 +14,7 @@ const Navigation = (props) => {
         setError('');
         try {
             await logout()
-                .then(history.push('/login'));
+                .then(history.push('/#/login'));
         } catch {
             setError('Failed to logout');
             alert(error);
@@ -22,11 +22,13 @@ const Navigation = (props) => {
     };
 
     return (
-        <ul className={classes.NavigationItems}>
-            {currentUser ? <NavigationItem exact link="/">Notes</NavigationItem> : null}
-            {currentUser ? <NavigationItem link="/profile">Profile</NavigationItem> : null}
-            {!currentUser ? null : <NavigationItem link="/login" clicked={logoutHandler}>Log Out</NavigationItem>}
-        </ul>
+        <HashRouter basename="/">
+            <ul className={classes.NavigationItems}>
+                {currentUser ? <NavigationItem exact link="/">Notes</NavigationItem> : null}
+                {currentUser ? <NavigationItem link="/profile">Profile</NavigationItem> : null}
+                {!currentUser ? null : <NavigationItem link="/login" clicked={logoutHandler}>Log Out</NavigationItem>}
+            </ul>
+        </HashRouter>
     )
 };
 

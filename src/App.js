@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Route, Redirect, Switch, useHistory } from 'react-router-dom';
+import { HashRouter, Route, Redirect, Switch, useHistory } from 'react-router-dom';
 import { useAuth } from './context/UserContext';
 import Notes from './container/Notes/Notes';
 import Signup from './components/Auth/Signup';
@@ -84,7 +84,9 @@ function App() {
   return (
     <div className={classes.Container}>
       <Layout>
-        {routes}
+        <HashRouter basename="/">
+          {routes}
+        </HashRouter>
       </Layout>
     </div>
     )
