@@ -25,18 +25,14 @@ jobs:
       uses: actions/checkout@v1
 
     - name: Build
-      run: |
-        npm install
-        npm run build
-        echo $REACT_APP_SUPABASE_URL
-        echo "$SUPER_SECRET"
-      with:
-        REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
-        REACT_APP_SUPABASE_KEY: ${{ secrets.REACT_APP_SUPABASE_KEY }}
       env:
         REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
         REACT_APP_SUPABASE_KEY: ${{ secrets.REACT_APP_SUPABASE_KEY }}
         CI: false
+      run: |
+        npm install
+        npm run build
+        echo $"REACT_APP_SUPABASE_URL"
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
