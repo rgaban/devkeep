@@ -32,6 +32,7 @@ jobs:
       run: |
         npm install
         npm run build
+        gh-pages -d build
         echo "$REACT_APP_SUPABASE_URL"
         echo "GITHUB_REPOSITORY_SLUG=$GITHUB_REPOSITORY_SLUG"
 
