@@ -18,6 +18,7 @@ jobs:
         SUPER_SECRET: ${{ secrets.REACT_APP_SUPABASE_URL }}
       run: |
         echo "$SUPER_SECRET"
+        TEST_ENV "$TEST_ENV"
 
     - name: Checkout
       uses: actions/checkout@v1
@@ -32,6 +33,7 @@ jobs:
       env:
         REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
         REACT_APP_SUPABASE_KEY: ${{ secrets.REACT_APP_SUPABASE_KEY }}
+        TEST_ENV: 123
         CI: false
 
     - name: Deploy
