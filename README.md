@@ -20,7 +20,7 @@ Your not so typical note taking app, geared for developers, with a twist to add 
 
 ## Technologies & Plugins
 - Frontend: React.js
-- Backend: [Supbase.io](https://app.supabase.io/): hosted Postgres database with restful API with Supabase.js
+- Backend: [Supabase.io](https://app.supabase.io/): hosted Postgres database with restful API with Supabase.js
 - [react-quill](https://www.npmjs.com/package/react-quill)
 - [react-ace](https://www.npmjs.com/package/react-ace)
 - [react-toastify](https://www.npmjs.com/package/react-toastify)
