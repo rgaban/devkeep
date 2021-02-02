@@ -14,7 +14,7 @@ const NoteListItem = (props) => {
         } else {
             newTitleString = titleString;
         }
-        return newTitleString
+        return newTitleString;
     };
 
     return (
