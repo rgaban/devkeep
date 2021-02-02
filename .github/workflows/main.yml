@@ -16,6 +16,7 @@ jobs:
       shell: bash
       env:
         SUPER_SECRET: ${{ secrets.REACT_APP_SUPABASE_URL }}
+        TEST_ENV: 123
       run: |
         echo "$SUPER_SECRET"
         echo "$TEST_ENV"
@@ -33,7 +34,6 @@ jobs:
       env:
         REACT_APP_SUPABASE_URL: ${{ secrets.REACT_APP_SUPABASE_URL }}
         REACT_APP_SUPABASE_KEY: ${{ secrets.REACT_APP_SUPABASE_KEY }}
-        TEST_ENV: 123
         CI: false
 
     - name: Deploy
