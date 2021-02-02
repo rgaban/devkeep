@@ -18,8 +18,9 @@ jobs:
         SUPER_SECRET: ${{ secrets.REACT_APP_SUPABASE_URL }}
         TEST_ENV: 123
       run: |
-        echo "$SUPER_SECRET"
         echo "$TEST_ENV"
+        echo "SUPER SECRET = $SUPER_SECRET"
+        echo "SUPER_SECRET = ${{ env.SUPER_SECRET }}"
 
     - name: Checkout
       uses: actions/checkout@v1
@@ -33,7 +34,6 @@ jobs:
         npm install
         npm run build
         echo "$REACT_APP_SUPABASE_URL"
-        echo "GITHUB_REPOSITORY_SLUG=$GITHUB_REPOSITORY_SLUG"
 
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
