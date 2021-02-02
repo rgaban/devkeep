@@ -15,7 +15,7 @@ const NoteListItem = (props) => {
             newTitleString = titleString;
         }
         return newTitleString;
-    };
+    }
 
     return (
         <div>
