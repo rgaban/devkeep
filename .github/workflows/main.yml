@@ -18,7 +18,7 @@ jobs:
         SUPER_SECRET: ${{ secrets.REACT_APP_SUPABASE_URL }}
       run: |
         echo "$SUPER_SECRET"
-        TEST_ENV "$TEST_ENV"
+        echo "$TEST_ENV"
 
     - name: Checkout
       uses: actions/checkout@v1
