@@ -6,6 +6,17 @@ const NoteListItem = (props) => {
         return str.replace(/<[^>]*?/gm, '');
     };
 
+    const convertNoteTitleString = (str) => {
+        let titleString = removeHTMLTags(str);
+        let newTitleString;
+        if (titleString.length >= 30) {
+            newTitleString = titleString.substring(0, 30) + '...';
+        } else {
+            newTitleString = titleString;
+        }
+        return newTitleString
+    };
+
     return (
         <div>
             <ListItem
@@ -13,7 +24,7 @@ const NoteListItem = (props) => {
                 data-id={props.noteId}
                 selected={props.selected}
                 button={true}>
-                {removeHTMLTags(props.title.substring(0, 30) + '...')}
+                {convertNoteTitleString(props.title)}
             </ListItem>
         </div>
     )
