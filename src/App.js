@@ -84,9 +84,7 @@ function App() {
   return (
     <div className={classes.Container}>
       <Layout>
-        <HashRouter basename="/">
-          {routes}
-        </HashRouter>
+        {routes}
       </Layout>
     </div>
     )

@@ -22,7 +22,6 @@ export default function Notes() {
     const [theme, setTheme] = useState('github');
     const [isAddingNote, setIsAddingNote] = useState(false);
     const [isNoteEdited, setIsNoteEdited] = useState(false);
-    // const [isNoteRequestPending, setIsNoteRequestPending] = useState(false);
     const titleInputEl = useRef();
 
     useEffect(() => {
