@@ -46,7 +46,7 @@ export default function Notes() {
     }, []);
 
     useEffect(() => {
-        // titleInputEl.current.focus();
+        titleInputEl.current.focus();
         if (notes && notes.length > 0 && !isNoteEdited) {
             setNoteId(notes[selectedNoteIndex].id);
             setNoteTitle(notes[selectedNoteIndex].title);
@@ -92,7 +92,7 @@ export default function Notes() {
         setNoteDescription('');
         setCode('');
         setLanguage('javascript');
-        // titleInputEl.current.focus();
+        titleInputEl.current.focus();
     };
 
     const notifySave = () => {
@@ -202,7 +202,7 @@ export default function Notes() {
     };
 
     const handleNoteClick = (e) => {
-        // titleInputEl.current.focus();
+        titleInputEl.current.focus();
         setIsAddingNote(false);
         setSelectedNoteIndex(notes.findIndex(note => note.id === parseInt(e.target.dataset.id)));
     };

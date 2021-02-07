@@ -1,3 +1,4 @@
+import { ChromeReaderMode } from '@material-ui/icons';
 import { createClient } from '@supabase/supabase-js';
 
 export const supabase = createClient(
