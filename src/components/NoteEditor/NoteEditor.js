@@ -24,10 +24,9 @@ const NoteEditor = (props) => {
                 onChange={props.noteDescriptionChanged}
                 placeholder="Note description..."
                 tabIndex={parseInt(2)}
-                style={{
-                    height: "500px"
-                }}>
-
+                style={{ height: '55vh' }}
+                className={classes.EditingArea}
+                >
             </ReactQuill>
             <div className={classes.ActionsContainer}>
                 <DeleteButton clicked={props.deleteClicked} />

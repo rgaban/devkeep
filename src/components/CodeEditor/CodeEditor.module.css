@@ -3,7 +3,6 @@
     flex-direction: column;
     height: 70vh;
     box-sizing: border-box;
-    max-width: 500px;
     margin-top: 20px;
 }
 
@@ -22,7 +21,8 @@
 }
 
 .LanguagesContainer select {
-
+    font-family: 'Architects Daughter', cursive;
+    font-size: 15px;
 }
 
 .ThemeContainer {
@@ -34,5 +34,6 @@
 }
 
 .ThemeContainer select {
-
+    font-family: 'Architects Daughter', cursive;
+    font-size: 15px;
 }

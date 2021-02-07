@@ -2,6 +2,7 @@
     width: 400px;
     text-align: center;
     margin: 150px auto;
+    font-family: 'Architects Daughter', cursive;
 }
 
 .Container div {
@@ -42,6 +43,8 @@
     height: 25px;
     outline: none;
     margin:0.3em 0;
+    font-family: inherit;
+    letter-spacing: 0.1rem;
 }
 
 .BtnSubmit {
@@ -62,6 +65,7 @@
     background-color:#5f6c7b;
     text-align:center;
     transition: all 0.2s;
+    font-family: inherit;
 }
 
 .BtnSubmit:hover {

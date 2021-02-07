@@ -3,7 +3,11 @@
     margin-top: 80px;
     height: 90vh;
     overflow: hidden;
-    grid-template-columns: 1fr 2.5fr 2.5fr;
+    grid-template-columns: 0.5fr 2.5fr 2.5fr;
     grid-gap: 1%;
     overflow-y: hidden;
+}
+
+.Container > *  {
+    justify-self: stretch;
 }

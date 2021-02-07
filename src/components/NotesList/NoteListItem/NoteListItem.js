@@ -1,6 +1,8 @@
 import React from 'react';
 import { ListItem } from '@material-ui/core';
 
+import classes from './NoteListItem.module.css';
+
 const NoteListItem = (props) => {
     const removeHTMLTags = (str) => {
         return str.replace(/<[^>]*?/gm, '');
@@ -18,7 +20,7 @@ const NoteListItem = (props) => {
     }
 
     return (
-        <div>
+        <div className={classes.Container}>
             <ListItem
                 onClick={props.noteClicked}
                 data-id={props.noteId}

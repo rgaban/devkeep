@@ -90,7 +90,10 @@ const codeEditor = (props) => {
                 onChange={props.codeChanged}
                 name="ID of Div"
                 editorProps={{ $blockScrolling: true }}
-                height="100vh" />
+                style={{
+                    width: '50%',
+                    height: "59vh"
+                }} />
         </div>
 
     )
