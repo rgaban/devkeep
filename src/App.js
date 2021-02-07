@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { HashRouter, Route, Redirect, Switch, useHistory } from 'react-router-dom';
+import { Route, Redirect, Switch, useHistory } from 'react-router-dom';
 import { useAuth } from './context/UserContext';
 import Notes from './container/Notes/Notes';
 import Signup from './components/Auth/Signup';
@@ -25,9 +25,9 @@ function App() {
     try {
         setError('');
         setIsLoading(true);
-        await login(emailRef.current.value, passwordRef.current.value)
-            .then(setIsLoading(false));
-            history.push('/');
+        await login(emailRef.current.value, passwordRef.current.value);
+        setIsLoading(false);
+        history.push('/');
     } catch {
         setError('Failed to sign in');
     }
@@ -43,7 +43,7 @@ function App() {
         setError('');
         setIsLoading(true);
         await signup(emailRef.current.value, passwordRef.current.value)
-            .then(setIsLoading(false));
+        setIsLoading(false)
         history.push('/');
     } catch {
         setError('Failed to create an account');

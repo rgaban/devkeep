@@ -54,7 +54,7 @@ export const deleteNote = async (noteId, user_id) => {
             }
             return data;
     } catch (error) {
-        console.log(error);
+        console.log('error', error);
     }
 };
 
@@ -87,9 +87,8 @@ export const getNote = async (noteId) => {
         if (error) {
             throw new Error(error);
         }
-        console.log(data);
         return data;
     } catch (error) {
         console.log('error', error);
     }
-}
+};

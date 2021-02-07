@@ -31,7 +31,6 @@ export default function Notes() {
             fetchNotes(currentUser.id)
                 .then(response => {
                     if (isSubscribed && response.length > 0) {
-                        console.log(response);
                         fetchedNotes = response.sort((a, b) => b.id - a.id);
                         setNotes(fetchedNotes);
                         setNoteId(fetchedNotes[selectedNoteIndex].id);
@@ -144,21 +143,18 @@ export default function Notes() {
         });
     }
 
-    const handleDeleteNote = (noteId) => {
+    const handleDeleteNote = async (noteId) => {
         setIsAddingNote(false);
-        deleteNote(noteId, currentUser.id)
-            .then(response => {
-                if (response) {
-                    notifyDelete();
-                    setNotes(notes.filter(note => note.id !== noteId));
-                } else {
-                    notifyDeleteError();
-                };
-            });
+        const res = await deleteNote(noteId, currentUser.id);
+        if (res) {
+            notifyDelete();
+            setNotes(notes.filter(note => note.id !== noteId));
+        } else {
+            notifyDeleteError();
+        }
     };
 
-    const handleSaveNote = () => {
-        // need to handle how to save untitled notes
+    const handleSaveNote = async () => {
         if (isAddingNote) {
             setSelectedNoteIndex(0);
             let title = '';
@@ -168,43 +164,39 @@ export default function Notes() {
                 title = noteTitle;
             }
 
-            addNote(title, noteDescription, code, language, currentUser.id)
-                .then(response => {
-                    if (response) {
-                        notifySave();
-                        setNotes([{
-                            id: response[0].id,
-                            title: response[0].title,
-                            description: response[0].description,
-                            code: response[0].code,
-                            language: response[0].language,
-                            user_id: response[0].user_id
-                        }, ...notes]);
-                    } else {
-                        notifySaveError();
-                    }
-                });
+            const res = await addNote(title, noteDescription, code, language, currentUser.id)
+            if (res) {
+                notifySave();
+                setNotes([{
+                    id: res[0].id,
+                    title: res[0].title,
+                    description: res[0].description,
+                    code: res[0].code,
+                    language: res[0].language,
+                    user_id: res[0].user_id
+                }, ...notes]);
+            } else {
+                notifySaveError();
+            }
             setIsAddingNote(false);
             setIsNoteEdited(false);
         } else {
-            updateNote(noteId, noteTitle, noteDescription, code, language)
-                .then(response => {
-                    if (response) {
-                        notifySave();
-                        const newNotes = [...notes];
-                        newNotes[selectedNoteIndex] = {
-                            id: response[0].id,
-                            title: response[0].title,
-                            description: response[0].description,
-                            code: response[0].code,
-                            language: response[0].language,
-                            user_id: response[0].user_id
-                        };
-                        setNotes(newNotes);
-                    } else {
-                        notifySaveError();
-                    };
-                });
+            const res = await updateNote(noteId, noteTitle, noteDescription, code, language)
+            if (res) {
+                notifySave();
+                const newNotes = [...notes];
+                newNotes[selectedNoteIndex] = {
+                    id: res[0].id,
+                    title: res[0].title,
+                    description: res[0].description,
+                    code: res[0].code,
+                    language: res[0].language,
+                    user_id: res[0].user_id
+                };
+                setNotes(newNotes);
+            } else {
+                notifySaveError();
+            };
             setIsNoteEdited(false);
         };
     };

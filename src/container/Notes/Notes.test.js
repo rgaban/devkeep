@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Notes from './Notes';
-import { MemoryRouter, useParams } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 
 const renderComponent = (component) => {
     return render(

@@ -13,8 +13,8 @@ const Navigation = (props) => {
     const logoutHandler = async () => {
         setError('');
         try {
-            await logout()
-                .then(history.push('/#/login'));
+            await logout();
+            history.push('/#/login');
         } catch {
             setError('Failed to logout');
             alert(error);

@@ -18,7 +18,7 @@ const renderNavigation = (user) => {
 test("renders three <NavigationItem /> elements if authenticated", () => {
     const { getByText } = render(<Navigation />, { wrapper: UserProvider });
 
-    // getByText("Notes");
+    // getByText("Notes"); // ask Jay about testing such
 });
 
 // test("Navigation items show for authenticated users", () => {
