@@ -1,28 +1,26 @@
 .Container {
-    display: flex;
-    flex-direction: column;
-    width: 250px;
-    height: 100vh;
-    left: 0;
-    top: 0;
-    z-index: 200;
-    background-color: #97a0aa17;
-    padding: 32px 16px;
-    box-sizing: border-box;
-    font-family: 'Architects Daughter', cursive;
-    font-size: 22px;
-    letter-spacing: 0.05rem;
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  z-index: 200;
+  background-color: #97a0aa17;
+  padding: 32px 16px;
+  box-sizing: border-box;
+  font-size: 22px;
+  letter-spacing: 0.05rem;
 }
 
 .HeaderContainer {
-    display: flex;
-    justify-content: space-between;
-    overflow-y: hidden;
-    font-family: 'Architects Daughter', cursive;
-    font-size: 22px;
-    letter-spacing: 0.05rem;
+  display: flex;
+  justify-content: space-between;
+  overflow-y: hidden;
+  font-size: 22px;
+  letter-spacing: 0.05rem;
 }
 
 .List {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }

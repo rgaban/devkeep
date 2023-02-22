@@ -1,89 +1,70 @@
 .Container {
-    width: 400px;
-    text-align: center;
-    margin: 150px auto;
-    font-family: 'Architects Daughter', cursive;
-}
-
-.Container div {
-
-}
-
-.Card {
-
-
-}
-
-.CardBody {
-
+  width: 400px;
+  text-align: center;
+  margin: 150px auto;
 }
 
 .CardBody h2 {
-    margin:0 0 0px 0;
-    padding:10px;
-    text-align:center;
-    font-size:30px;
-    color:darken(#e5e5e5, 50%);
-    border-bottom:solid 1px #e5e5e5;
+  margin:0 0 0px 0;
+  padding:10px;
+  text-align:center;
+  font-size:30px;
+  color:darken(#e5e5e5, 50%);
+  border-bottom:solid 1px #e5e5e5;
 }
 
 .CardBody form {
-    background: #fff;
-    padding: 3em 4em 2em;
-    max-width: 400px;
-    margin: 10px auto 0;
-    box-shadow: 0 0 1em #222;
-    border-radius: 2px;
+  background: #fff;
+  padding: 3em 4em 2em;
+  max-width: 400px;
+  margin: 10px auto 0;
+  box-shadow: 0 0 1em #222;
+  border-radius: 2px;
 }
 
 .FormGroup input {
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    height: 25px;
-    outline: none;
-    margin:0.3em 0;
-    font-family: inherit;
-    letter-spacing: 0.1rem;
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  height: 25px;
+  outline: none;
+  margin:0.3em 0;
+  font-family: inherit;
+  letter-spacing: 0.1rem;
 }
 
 .BtnSubmit {
-    outline: none;
-    text-align: center;
-    display: inline-block;
-    padding: 0.3em 1.2em;
-    margin: 1em 0.3em 0.3em 0;
-    border-radius: 10em;
-    height: 40px;
-    width: 50%;
-    box-sizing: border-box;
-    text-decoration:none;
-    font-family:'Roboto',sans-serif;
-    font-weight: 400;
-    font-size: 15px;
-    color: #ffffff;
-    background-color:#5f6c7b;
-    text-align:center;
-    transition: all 0.2s;
-    font-family: inherit;
+  outline: none;
+  text-align: center;
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 1em 0.3em 0.3em 0;
+  border-radius: 10em;
+  height: 40px;
+  width: 50%;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family:'Roboto',sans-serif;
+  font-weight: 400;
+  font-size: 15px;
+  color: #ffffff;
+  background-color:#5f6c7b;
+  text-align:center;
+  transition: all 0.2s;
+  font-family: inherit;
 }
 
 .BtnSubmit:hover {
-    background-color: #4b5561;
+  background-color: #4b5561;
 }
 
-/* .BtnSubmit:active {
-    outline: 0;
-    background-image: none;
-} */
-
 .Login {
-    margin: 2em 1em;
+  margin: 2em 1em;
 }
 
 @media all and (max-width:30em) {
-    .BtnSubmit {
-        display:block;
-        margin:0.2em auto;
-    }
+  .BtnSubmit {
+    display:block;
+    margin:0.2em auto;
+  }
 }

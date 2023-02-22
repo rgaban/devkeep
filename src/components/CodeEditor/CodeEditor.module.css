@@ -1,39 +1,28 @@
 .Container {
-    display: flex;
-    flex-direction: column;
-    height: 70vh;
-    box-sizing: border-box;
-    margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 70vh;
+  box-sizing: border-box;
+  margin-top: 20px;
 }
 
 .DropdownContainer {
-    display: flex;
-    margin: 15px 0;
+  display: flex;
+  margin: 15px 0;
 }
 
 .LanguagesContainer {
-    display: flex;
-
-}
-
-.LanguagesContainer label {
-
+  display: flex;
 }
 
 .LanguagesContainer select {
-    font-family: 'Architects Daughter', cursive;
-    font-size: 15px;
+  font-size: 15px;
 }
 
 .ThemeContainer {
-    display: flex;
-}
-
-.ThemeContainer label {
-
+  display: flex;
 }
 
 .ThemeContainer select {
-    font-family: 'Architects Daughter', cursive;
-    font-size: 15px;
+  font-size: 15px;
 }

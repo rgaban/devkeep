@@ -1,78 +1,64 @@
 .Container {
-    margin-top: 10px;
-    padding: 20px 20px;
-    height: 100vh;
-    font-family: 'Architects Daughter', cursive;
+  margin-top: 10px;
+  padding: 20px 20px;
+  height: 100vh;
 }
 
 .Container table {
-    table-layout: fixed;
-    min-width: 100%;
-    border-collapse: collapse;
-    text-indent: 0;
-    background-color: #97a0aa17;
+  table-layout: fixed;
+  min-width: 100%;
+  border-collapse: collapse;
+  text-indent: 0;
+  background-color: #97a0aa17;
 }
 
 .Container thead {
-    display: table-header-group;
-    vertical-align: middle;
-    min-width: 100%;
-    text-transform: uppercase;
-    font-weight: bold;
-    min-width: 40px;
-    font-weight: 700;
-    line-height: 3;
-    text-align: left;
+  display: table-header-group;
+  vertical-align: middle;
+  min-width: 100%;
+  text-transform: uppercase;
+  font-weight: bold;
+  min-width: 40px;
+  font-weight: 700;
+  line-height: 3;
+  text-align: left;
 }
 
 .Container th {
-    background-color: rgba(232, 232, 232, 0.7);
-    padding-left: .75rem;
-}
-
-.Container tbody {
-    /* color: rgba(255, 255, 255, 0.666) */
+  background-color: rgba(232, 232, 232, 0.7);
+  padding-left: .75rem;
 }
 
 .Container tr {
-    display: table-row;
-    vertical-align: inherit;
+  display: table-row;
+  vertical-align: inherit;
 }
 
 .Container td {
-    padding: 12px 16px;
+  padding: 12px 16px;
 }
 
 .Container input {
-    min-width: 50px !important;
-    width: 100% !important;
-    font-size: 16px;
-    background-color: transparent;
-    border-radius: .25rem;
-    line-height: 1.25;
-    border-color: rgba(255, 255, 255, 0.666);
-    border-width: 1px;
-    appearance: none;
-    padding: .5rem .75rem;
-    font-family: inherit;
-    letter-spacing: 0.1rem;
-}
-
-
-.UserIdContainer {
-
-}
-
-.EmailContainer {
-
+  min-width: 50px !important;
+  width: 100% !important;
+  font-size: 16px;
+  background-color: transparent;
+  border-radius: .25rem;
+  line-height: 1.25;
+  border-color: rgba(255, 255, 255, 0.666);
+  border-width: 1px;
+  appearance: none;
+  padding: .5rem .75rem;
+  font-family: inherit;
+  letter-spacing: 0.1rem;
 }
 
 .Uppercase {
-    text-transform: uppercase;
-    font-weight: bold;
-    min-width: 40px;
-    padding-left: 1rem;
-    padding-left: 1rem;
-    padding: .75rem 1rem .75rem 1rem;
-    font-weight: 700;
+  text-transform: uppercase;
+  font-weight: bold;
+  min-width: 40px;
+  padding-left: 1rem;
+  padding-left: 1rem;
+  padding: .75rem 1rem .75rem 1rem;
+  font-weight: 700;
 }
